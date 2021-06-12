@@ -25,13 +25,6 @@ except NameError:
     print(' importing gauss as g.')
     import gauss as g
     
-        
-try:
-    g
-except NameError:
-    print(' importing gauss as g.')
-    import gauss as g
-    
 try:
     pickle
 except NameError:
@@ -55,7 +48,6 @@ try:
 except NameError:
     print(' importing linear_model from sklearn.')
     from sklearn import linear_model
-    
-    
+   
     
     
