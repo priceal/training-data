@@ -14,18 +14,20 @@ Stores results in pkl file as a tuple of arrays (coordinate, labels)
 """
 runfile('initialize.py', current_namespace=True)
 
-xyFile = "/home/allen/projects/training-data/reviewedXY_07-1.npy"
-span = 5
+xyFile = "xydata/reviewedXY_00.npy"
+span = 4
 dims = (1920,1200)
 nseed = 202264721
 
 # define data file name if you want to save it
-saveData  = True
+saveData  = False
 if saveData:
     saveFileName = 'expandedXY.pkl'
     
 ##############################################################################
 np.random.seed(nseed)
+xrange = (0,dims[0])
+yrange = (0,dims[1])
 
 # load XY array from pick particles (integerXY)
 XY  = np.load(xyFile)
@@ -61,7 +63,7 @@ print("... {} remaining after pruning hits from displaced coordinates.".format(n
 expXY = np.vstack((XY,udXY_final))
 
 # generate random coordinates and remove repeats
-rXY = sd.multiRand2D(numHits, xr = [0,dims[0]], yr = [0,dims[1]] ).astype(int)
+rXY = sd.multiRand2D(numHits, xr = xrange, yr = yrange ).astype(int)
 urXY = np.unique(rXY,axis=0)
 print('Generated {} random coordinates.'.format(numHits))
 print("... {} unique remaining after removing duplicates".format(len(urXY)))
@@ -84,13 +86,13 @@ print(numHits," hits.")
 print(numNearMisses, " near misses.")
 print(numBackground, " background")
 print( len(expXY_final), " total.")
-plt.plot(XY[:,0],XY[:,1],'b.')
-plt.plot(udXY_final[:,0],udXY_final[:,1],'g.')
-plt.plot(urXY_final[:,0],urXY_final[:,1],'r.')
+plt.plot(XY[:,0],XY[:,1],'bo')
+plt.plot(udXY_final[:,0],udXY_final[:,1],'go')
+plt.plot(urXY_final[:,0],urXY_final[:,1],'ro')
 
 if saveData:
     with open(saveFileName,'wb') as file:
         pickle.dump((expXY_final,expXY_class),file)
         
-     
+
         
