@@ -9,6 +9,7 @@ import scipy.special as ss
 import numpy as np
 import pylab as plt
 import simDataFunctions as sdf
+import random as rd
 
 
 ###############################################################

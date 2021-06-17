@@ -49,5 +49,11 @@ except NameError:
     print(' importing linear_model from sklearn.')
     from sklearn import linear_model
    
+try:
+    sd
+except NameError:
+    print(' importing simdata as sd.')
+    import simdata as sd
+
     
     

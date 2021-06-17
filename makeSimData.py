@@ -18,26 +18,26 @@ lowerLimit, upperLimit = 2.5, 3.5
 
 #define parameters describing particle
 ampMean = 150.0          # mean amplitude of particle
-ampSTD = 20.0            # STD of particle amplitudes
+ampSTD = 50.0            # STD of particle amplitudes
 HWMean = 1.2          # mean halfwidth of particle
-HWSTD = 0.15          # std of halfwidths
+HWSTD = 0.2          # std of halfwidths
 
 #define uniform background characteristics (set all = 0 if not wanted)
 backgroundMean = 40
-backgroundSTD = 5
+backgroundSTD = 10
 
 # define noise characteristics if wanted (set all = 0 if not wanted)
-noiseSigma = 6
+noiseSigma = 8
 
 # parameters for desired sample numbers
-numberHits = 5000
-numberNearMiss = 2500
-numberBackground = 2500
+numberHits = 10000
+numberNearMiss = 5000
+numberBackground = 5000
 
 # define data file name if you want to save it
 saveData  = True
 if saveData:
-    saveFileName = 'data2.pkl'
+    saveFileName = 'data.pkl'
 
 ##############################################################################
 ##############################################################################
