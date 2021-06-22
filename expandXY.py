@@ -14,10 +14,10 @@ Stores results in pkl file as a tuple of arrays (coordinate, labels)
 """
 runfile('initialize.py', current_namespace=True)
 
-xyFile = "xydata/reviewedXY_00.npy"
-span = 4
-dims = (1920,1200)
-nseed = 202264721
+xyFile = "reviewedXY_07-1.npy"  # input coordinate file, must be .npy
+span = 4                             # max displacement of near misses
+dims = (1920,1200)                   # dims of image
+nseed = 202264721                    # keep same to reproduce previous results
 
 # define data file name if you want to save it
 saveData  = False
@@ -43,7 +43,7 @@ for coord in dXY:
         yOffset = np.random.randint(-span, span)
     coord[0] += xOffset
     coord[1] += yOffset
-print('Generated {} displaced coordinates.'.format(numHits))
+print('Generated {} displaced coordinates (near misses).'.format(numHits))
     
 # now remove repeats from displaced XY
 udXY = np.unique(dXY,axis=0)
@@ -51,7 +51,7 @@ print("... {} unique remaining after removing duplicates".format(len(udXY)))
 
 # now remove any displaced that are same as hits
 mask = np.ones(len(udXY),dtype=bool)
-for value in XY:
+for value in XY:   # will generate a mask that only passes chosen coords
     tempmask = udXY != value
     tempmask2 = tempmask[:,0] | tempmask[:,1]
     mask = mask & tempmask2
@@ -65,18 +65,18 @@ expXY = np.vstack((XY,udXY_final))
 # generate random coordinates and remove repeats
 rXY = sd.multiRand2D(numHits, xr = xrange, yr = yrange ).astype(int)
 urXY = np.unique(rXY,axis=0)
-print('Generated {} random coordinates.'.format(numHits))
+print('Generated {} random coordinates (background).'.format(numHits))
 print("... {} unique remaining after removing duplicates".format(len(urXY)))
-
-# now remove any random that are same as hits or displaced
-mask = np.ones(len(urXY),dtype=bool)
-for value in expXY:
-    tempmask = urXY != value
-    tempmask2 = tempmask[:,0] | tempmask[:,1]
-    mask = mask & tempmask2
-urXY_final = urXY[mask]
+print('removing all random coords within mear miss range of hits...')
+maskList = []
+for backxy in urXY:
+    testVal = True
+    for hitxy in XY:
+        testVal *= np.linalg.norm(hitxy-backxy,ord=np.Inf) > span
+    maskList.append(testVal)
+urXY_final = urXY[maskList]
 numBackground = len(urXY_final)
-print("... {} remaining after pruning hits/displaced from random coordinates.".format(numBackground))
+print("... {} remaining".format(numBackground))
 
 # put all together & output results
 expXY_final = np.vstack((expXY,urXY_final))
