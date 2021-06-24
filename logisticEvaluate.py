@@ -8,7 +8,7 @@ Created on Thu Jan 14 19:37:26 2021
 
 runfile('initialize.py', current_namespace=True)
 
-testSetFile = 'test.pkl'
+testSetFile = 'nearMissData.pkl'
 
 regModel = reg
 
@@ -30,32 +30,48 @@ X = scaled_frames.reshape( (numberSamples, yDim*xDim) )
 Y = classification
 
 # define regression model and train!
+m = len(Y)
 Xpredict = regModel.predict(X)
-
-predictedHits = Xpredict.sum()
+predHits = Xpredict.sum()
+predMisses = m - predHits
 actualHits = Y.sum()
 actualMisses = numberSamples - actualHits
 
-truePositives = (Xpredict & Y).sum()
-falsePositives = (Xpredict & ~Y).sum()
-trueNegatives = (~Xpredict & ~Y).sum()
-falseNegatives = (~Xpredict & Y).sum()
-print('')
-print('test set containt {} positive and {} negatives'\
-      .format(actualHits,numberSamples-actualHits))
+#truePositives = (Xpredict & Y).sum()
+#falsePositives = (Xpredict & ~Y).sum()
+#trueNegatives = (~Xpredict & ~Y).sum()
+#falseNegatives = (~Xpredict & Y).sum()
 
-print('true positives', truePositives, '({:2.1f}%)'.format(100*truePositives/actualHits))
-print('false negatives', falseNegatives, '({:2.1f}%)'.format(100*falseNegatives/actualHits))
+cf = confusion_matrix(Y,Xpredict)
+truePositives = cf[1,1]
+falsePositives = cf[0,1]
+trueNegatives = cf[0,0]
+falseNegatives = cf[1,0]
+negatives = trueNegatives + falseNegatives
+positives = truePositives + falsePositives
+
+print('')
+print('test set contains {} TRUE and {} FALSE'.format(actualHits,actualMisses))
+print('predictions contain {} POSITIVE and {} NEGATIVE'.format(predHits,predMisses))
 print('')
 
-print('true negatives', trueNegatives, '({:2.1f}%)'.format(100*trueNegatives/actualMisses))
-print('false positives', falsePositives, '({:2.1f}%)'.format(100*falsePositives/actualMisses))
+print('recall {:2.1f}%'.format(100*truePositives/actualHits) )
+print('precision {:2.1f}%'.format(100*truePositives/(truePositives+falsePositives)) )
+
+print('')
+print('           CONFUSION MATRIX')
+print('           FALSE      TRUE       TOTAL')
+print('NEGATIVE   {:<10} {:<10} {:<10}'.format(trueNegatives,falseNegatives,negatives))
+print('POSITIVE   {:<10} {:<10} {:<10}'.format(falsePositives,truePositives,positives))
+print('TOTAL      {:<10} {:<10} {:<10}'.format(actualMisses,actualHits,m))
+
+
 
 # plot points colored red/blue if predictid true/false
-clrs = [ 'red' if cl else 'blue' for cl in Xpredict ]
+clrs = [ 'red' if cl else 'blue' for cl in Xpredict[:7500] ]
 plt.figure()
 ax = plt.subplot()
 ax.set_aspect('equal')
 ax.grid()
-ax.scatter(coords[:,1],coords[:,0],c=clrs)
+ax.scatter(coords[:7500,1],coords[:7500,0],c=clrs)
 

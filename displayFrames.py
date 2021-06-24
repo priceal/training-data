@@ -11,7 +11,7 @@ displayframes_frames = frames
 # display parameters
 columns = 10
 rows = 10
-auto_scale = True
+auto_scale = False
 ######################################################################
 # do not change code below this line
 ######################################################################

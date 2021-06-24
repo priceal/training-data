@@ -54,6 +54,12 @@ try:
 except NameError:
     print(' importing simdata as sd.')
     import simdata as sd
+    
+try:
+    confusion_matrix
+except NameError:
+    print(' importing confusion_matrix.')
+    from sklearn.metrics import confusion_matrix
 
     
     

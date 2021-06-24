@@ -8,13 +8,13 @@ Created on Thu Jan 14 19:37:26 2021
 runfile('initialize.py', current_namespace=True)
 
 
-trainingSetFile = 'dataset.pkl'
+trainingSetFile = 'nearMissData.pkl'
 
 ##############################################################################
 ##############################################################################
 # load in training set
 with open(trainingSetFile, 'rb') as file:
-    (frames,classification) = pickle.load(file)
+    (frames,classification,xy) = pickle.load(file)
     
 # read parameters from training set dimenstions
 numberSamples, yDim, xDim = frames.shape
@@ -25,7 +25,7 @@ scaled_frames = frames/frames.max()
 
 # reshaping of frames and loading into X, Y arrays for training
 X = scaled_frames.reshape( (numberSamples, yDim*xDim) )
-Y = classification < 1
+Y = classification 
 
 # define regression model and train!
 reg = linear_model.LogisticRegression()

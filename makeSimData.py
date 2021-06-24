@@ -10,15 +10,15 @@ runfile('initialize.py', current_namespace=True)
 frameDims = (7,7)    # dimensions of frame
 
 # span of where particle is randomly placed
-xSpan = (-1.5, 7.5)
-ySpan = (-1.5, 7.5)
+xSpan = (2.0, 4.0)
+ySpan = (2.0, 4.0)
 
 # hit region --- where particle is in "hit" class (for now, square)
 lowerLimit, upperLimit = 2.5, 3.5
 
 #define parameters describing particle
 ampMean = 150.0          # mean amplitude of particle
-ampSTD = 50.0            # STD of particle amplitudes
+ampSTD = 30.0            # STD of particle amplitudes
 HWMean = 1.2          # mean halfwidth of particle
 HWSTD = 0.2          # std of halfwidths
 
@@ -27,17 +27,17 @@ backgroundMean = 40
 backgroundSTD = 10
 
 # define noise characteristics if wanted (set all = 0 if not wanted)
-noiseSigma = 8
+noiseSigma = 5
 
 # parameters for desired sample numbers
-numberHits = 10000
-numberNearMiss = 5000
-numberBackground = 5000
+numberHits = 5000
+numberNearMiss = 2500
+numberBackground = 2500
 
 # define data file name if you want to save it
 saveData  = True
 if saveData:
-    saveFileName = 'data.pkl'
+    saveFileName = 'nearMissData.pkl'
 
 ##############################################################################
 ##############################################################################
