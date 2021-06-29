@@ -70,7 +70,7 @@ for n in range(0, numberNearMiss):
 frames = np.concatenate((np.array(frameList),\
                          np.zeros((numberBackground,frameDims[0],frameDims[1]))
                          ))
-xyclass = np.array( [True]*numberHits + [False]*(numberNearMiss+numberBackground))
+xyclass = np.array([0]*numberHits+[1]*numberNearMiss+[2]*numberBackground)
 coordinates = np.array(Coordinates) 
 
 # now add noise and background
