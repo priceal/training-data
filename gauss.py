@@ -97,12 +97,12 @@ def randFrame(sigma,dim,mean=0.0):
 # dim          a 2-tuple of the dimensions of the frame
 #
 ###################################################################
-def GaussFrame(center,sig,I,dim):
+def GaussFrame(center,xsig,ysig,theta,I,dim):
     
     frame = np.zeros(dim)
     for i in range(dim[0]):
         for j in range(dim[1]):
-            frame[i,j] = Gaussian(i,j,center[0],center[1],sig,1.0)
+            frame[i,j] = Gaussian(i,j,center[0],center[1],xsig,ysig,theta)
             
     frame = frame * I 
             
@@ -118,11 +118,12 @@ def GaussFrame(center,sig,I,dim):
 # dim          a 2-tuple of the dimensions of the frame
 #
 ###################################################################
-def multiGaussFrame(centers,sig,I,dim):
+def multiGaussFrame(center,xsig,ysig,theta,I,dim):
     
     result = []
-    for center in centers:
-        result.append(GaussFrame(center,sig,I,dim))
+    for n in range(len(center)):
+    #for center, xsig, ysig, I in centers, xsigs, ysigs, Is:
+        result.append(GaussFrame(center[n],xsig[n],ysig[n],theta[n],I[n],dim))
     return np.array(result)
 
 
@@ -141,7 +142,7 @@ def plotrack(track,t0=0,t1=0):
 #################################################################      
 ###############################################################
 
-def Gaussian(x, y, x0, y0, sigma, A):
+def Gaussian(x, y, x0, y0, xsig, ysig, theta):
     """
     The 2D Gaussian which is the basis of the fitting routine
     returns an array which has same shape as input x and y
@@ -167,7 +168,11 @@ def Gaussian(x, y, x0, y0, sigma, A):
         DESCRIPTION.
 
     """
-    return A * np.exp( -0.5*( (x-x0)**2 + (y-y0)**2 )/(sigma**2) )
+    
+    xp = (x-x0)*np.cos(theta) + (y-y0)*np.sin(theta)
+    yp = - (x-x0)*np.sin(theta) + (y-y0)*np.cos(theta)
+    
+    return np.exp( -0.5*( (xp/xsig)**2 + (yp/ysig)**2 ) )
 
 ###############################################################
 ###################################################################

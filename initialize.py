@@ -54,6 +54,12 @@ try:
 except NameError:
     print(' importing simdata as sd.')
     import simdata as sd
+     
+try:
+    sf
+except NameError:
+    print(' importing sampleFunctions as sf.')
+    import sampleFunctions as sf
     
 try:
     confusion_matrix
