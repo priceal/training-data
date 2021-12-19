@@ -24,35 +24,35 @@ amplitude = (200.0, 40.0)    # (mean, sigma)
 ampCut = (50.0, 255.0)     # (low, high)
 ampClip = (-np.Inf, np.Inf)      # (low, high)
 
-length = (1.0, 1.5)             # (mean, sigma)
-lengthCut = (0.5, 2.0)      # (low, high)
+length = (1.25, 1.5)             # (mean, sigma)
+lengthCut = (0.75, 1.75)      # (low, high)
 lengthClip = (-np.Inf, np.Inf)      # (low, high)
 
 ecc = (1.0, 1.0)              # (mean, sigma)
-eccCut = (0.5, 3.0)           # (low, high)
+eccCut = (1.0, 3.0)           # (low, high)
 eccClip = (1.0, np.Inf)      # (low, high)
 
 theta = (0, 2.0*np.pi)              # (mean, sigma)
 
 # define parameters
 frameDims = (9,9)   # dimensions of frame
-xSpan = (3,5)   # x range of peak positions
-ySpan = (3,5)   # y range
-numberSamples = 500
+xSpan = (2.5,5.5)   # x range of peak positions
+ySpan = (2.5,5.5)   # y range
+numberSamples = 10000
 
 # hit region --- where value is TRUE
-xrange = [2.5,3.5]
-yrange = [2.5,3.5]
+xrange = [3.5,4.5]
+yrange = [3.5,4.5]
 
 # define noise characteristics if wanted
-noiseMean = 10
-noiseSigma = 5.0
+noiseMean = 20
+noiseSigma = 10.0
 addNoise = True
 
 # define data file name if you want to save it
-saveData  = False
+saveData  = True
 if saveData:
-    saveFileName = 'data/test.pkl'
+    saveFileName = 'test.pkl'
 
 ##############################################################################
 ##############################################################################
@@ -89,8 +89,10 @@ ax.set_aspect('equal')
 ax.grid()
 ax.scatter(coordinates[:,1],coordinates[:,0],c=clrs)
 
+header = 'header,frames,coordinates,sigmaWidth,sigmaLength,angles,amp'
 if saveData:
     with open(saveFileName,'wb') as file:
-        pickle.dump((frames,xyclass,coordinates),file)
+#        pickle.dump((header,frames,coordinates,sigmaWidth,sigmaLength,angles,amp),file)
+        pickle.dump( (frames, xyclass), file )
         
         
