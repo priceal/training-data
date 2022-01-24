@@ -8,7 +8,7 @@ Created on Thu Jan 14 19:37:26 2021
 runfile('initialize.py', current_namespace=True)
 
 
-trainingSetFile = 'test.pkl'
+trainingSetFile = 'ALL_2022_01_11.pkl'
 
 # hit region --- where value is TRUE
 #xrange = [3.5,4.5]
@@ -19,8 +19,7 @@ trainingSetFile = 'test.pkl'
 ##############################################################################
 # load in training set
 with open(trainingSetFile, 'rb') as file:
-#    (header,frames,coordinates,sigmaWidth,sigmaLength,angles,amp) = pickle.load(file)
-      (frames,xyclass)  = pickle.load(file)
+    (header,parameters,frames,xyclass) = pickle.load(file)
       
 # read parameters from training set dimenstions
 numberSamples, yDim, xDim = frames.shape
